@@ -23,5 +23,7 @@ class Room:
         print("You use the key on the door and escape the dungeon!")
         exit
       #player.hasKey will be implemented once the Item class is uploaded
+      else:
+        print("You see a large, locked door at the end of the hall.")
     else:
-      print("You see a large, locked door at the end of the hall.")
+      self.describe()

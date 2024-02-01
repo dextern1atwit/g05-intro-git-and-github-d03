@@ -49,6 +49,11 @@ minotaur = Enemy("Minotaur", minotaur_desc, minotaur_hit, minotaur_defeat)
 
 start_room = Room(None,None,None,None,None,None,start_desc,False)
 
+room_left = Room(None,None,None,start_room,sword,None,deadend,False)
+room_up = Room(None,start_room,None,None,None,None,deadend,True)
+room_right = Room(None,None,None,start_room,key,None,deadend,False)
+room_down =  Room(start_room,None,None,None,None,goblin,deadend,False)
+
 #Major oversight in the method of constructing the map and rooms referencing other rooms, python does not have a compiler
 #rl1 = Room(None,None,None,start_room,None,potion,east_south_turn,False)
 #rl2 = Room(None,None,None,None,goblin,None,north_south_west,False)
@@ -85,9 +90,18 @@ def main():
   player.location.describe()
   while True:
     prompt_user(player)
+
+    if player.location.enemy != None:
+      player.location.enemy.attack(player)
+      player.location.enemy=None
     
     if player.location.item != None:
       player.location.item.discover()
       player.inventory.append(player.location.item)
       player.inventory_disp.append(player.location.item.name)
+      match player.location.item.name:
+        case "Key":
+          player.hasKey=True
+        case "Sword":
+          player.hasSword=True
       player.location.item = None
